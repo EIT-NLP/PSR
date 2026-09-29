@@ -100,7 +100,7 @@ psr-render-table --all --output outputs/reported_tables.md
 The reference package requires Python 3.10+, PyTorch, Transformers, Accelerate, and a Qwen3-compatible environment. After cloning the repository, install a PyTorch build matching your CUDA driver before installing the package:
 
 ```bash
-git clone GITHUB_REPO_URL_TODO
+git clone https://github.com/qiuxins/PSR.git
 cd perceive-solve-reason
 conda env create -f environment.example.yml
 conda activate perceive-solve-reason
@@ -201,7 +201,7 @@ The paper URL is pending: `PAPER_URL_TODO`. The manuscript's LaTeX source is not
 
 ## Contact
 
-For questions about the paper or this reference repository, contact **qiuxin688@gmail.com**. Replace this placeholder with the public project email before publishing.
+For questions about the paper or this reference repository, contact [qiuxin688@gmail.com](mailto:qiuxin688@gmail.com).
 
 ## License
 
