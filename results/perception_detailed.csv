@@ -1,0 +1,5 @@
+model,trend_categorical,trend_numerical,season_categorical,season_numerical,noise_categorical,noise_numerical,local_categorical,local_numerical,correlation_categorical,clustering_categorical
+Pre-align,0.937,0.865,0.911,0.872,0.857,0.534,0.799,0.700,0.831,0.783
+GPT-4o (Text),0.664,0.839,0.751,0.546,0.654,0.287,0.237,0.165,0.361,0.294
+GPT-4o (Vision),0.691,0.423,0.907,0.582,0.659,0.361,0.415,0.302,0.394,0.411
+Post-align,0.922,0.880,0.931,0.834,0.900,0.479,0.824,0.733,0.771,0.804

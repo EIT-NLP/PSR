@@ -11,6 +11,20 @@ from transformers import AutoModelForCausalLM, AutoTokenizer
 
 from .models import build_model
 
+STAGES = ("perceive", "solve", "reason")
+
+
+def training_history(stage: str, previous: list[str] | None = None) -> list[str]:
+    """Allow ordered subsets such as Solve only or Perceive → Reason."""
+    if stage not in STAGES:
+        raise ValueError(f"Unknown stage: {stage}")
+    previous = list(previous or [])
+    if any(item not in STAGES for item in previous):
+        raise ValueError(f"Invalid previous stage history: {previous}")
+    if previous and STAGES.index(stage) <= STAGES.index(previous[-1]):
+        raise ValueError(f"Stage {stage} must come after {previous[-1]}")
+    return previous + [stage]
+
 
 def load_config(path: str | Path) -> dict[str, Any]:
     with Path(path).open(encoding="utf-8") as stream:
@@ -38,7 +52,7 @@ def build_tokenizer_and_model(config: dict[str, Any]) -> tuple[Any, torch.nn.Mod
     return tokenizer, build_model(config, llm).to(dtype=dtype)
 
 
-def load_checkpoint(model: torch.nn.Module, path: str | Path, config: dict[str, Any]) -> str:
+def load_checkpoint(model: torch.nn.Module, path: str | Path, config: dict[str, Any]) -> list[str]:
     path = Path(path)
     if path.is_dir():
         path = path / "model.pt"
@@ -52,11 +66,11 @@ def load_checkpoint(model: torch.nn.Module, path: str | Path, config: dict[str, 
         architecture == "pre_align" and any(not key.startswith("llm.") for key in missing)
     ):
         raise ValueError(f"Incompatible checkpoint: missing={missing[:5]}, unexpected={unexpected[:5]}")
-    return checkpoint["stage"]
+    return list(checkpoint.get("history", [checkpoint["stage"]]))
 
 
 def save_checkpoint(accelerator: Any, model: torch.nn.Module, output: Path,
-                    config: dict[str, Any], stage: str) -> None:
+                    config: dict[str, Any], history: list[str]) -> None:
     state = accelerator.get_state_dict(model)
     architecture = config["model"]["architecture"]
     if architecture == "pre_align":
@@ -66,7 +80,8 @@ def save_checkpoint(accelerator: Any, model: torch.nn.Module, output: Path,
         accelerator.save({
             "architecture": architecture,
             "backbone": config["model"]["backbone"],
-            "stage": stage,
+            "stage": history[-1],
+            "history": history,
             "state_dict": state,
         }, output / "model.pt")
     accelerator.wait_for_everyone()

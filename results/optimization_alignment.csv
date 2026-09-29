@@ -1,0 +1,7 @@
+model,training_strategy,perceive,solve,reason
+Pre-align,mixed,0.463,0.382,0.214
+Pre-align,progressive,0.612,0.574,0.593
+Post-align,mixed,0.421,0.347,0.236
+Post-align,progressive,0.534,0.536,0.565
+Textualization,mixed,0.318,0.219,0.241
+Textualization,progressive,0.301,0.254,0.226

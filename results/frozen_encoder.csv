@@ -1,0 +1,5 @@
+metric,non_frozen,frozen
+forecast_mse,1.328,1.336
+imputation_mse,0.0136,0.0142
+anomaly_accuracy,0.739,0.718
+classification_accuracy,0.628,0.643

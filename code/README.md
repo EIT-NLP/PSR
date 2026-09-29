@@ -29,20 +29,22 @@ From the repository root, install the package with `python -m pip install -e .` 
 ```bash
 accelerate launch -m psr.train --config configs/pre_align.yaml --stage perceive
 accelerate launch -m psr.train --config configs/pre_align.yaml --stage solve --resume-from outputs/pre_align/perceive
-accelerate launch -m psr.train --config configs/pre_align.yaml --stage reason --resume-from outputs/pre_align/solve
+accelerate launch -m psr.train --config configs/pre_align.yaml --stage reason --resume-from outputs/pre_align/perceive-solve
 ```
 
-Use `configs/post_align.yaml` and `outputs/post_align/...` for the Post-align path. `--max-steps 1` runs a short pipeline check. The default configs point to the tiny example data and Qwen3-4B, so they demonstrate the interface rather than a useful training run. Post-align jointly optimizes a 4B backbone and may require a DeepSpeed/Accelerate sharding configuration and substantial GPU memory.
+The default checkpoint directories encode their path: `outputs/pre_align/perceive`, then `outputs/pre_align/perceive-solve`, then `outputs/pre_align/perceive-solve-reason`. You can also start directly at `solve` or `reason`, or continue from a `perceive` checkpoint directly to `reason`, to form the ordered ablation paths. Use `configs/post_align.yaml` and `outputs/post_align/...` for Post-align. `--max-steps 1` runs a short pipeline check. The default configs point to tiny example data and Qwen3-4B, so they demonstrate the interface rather than useful training. Post-align jointly optimizes a 4B backbone and may require distributed sharding and substantial GPU memory.
 
-In Pre-align, the LLM remains frozen; Stage 1 trains the encoder and projection, and Stages 2–3 train the projection with the encoder frozen. In Post-align, the temporal encoder, cross-attention adapter, and LLM are trained together. Checkpoints carry the architecture, backbone, and stage; later stages validate the previous stage.
+In Pre-align, the LLM remains frozen. The first stage in a path trains the temporal encoder and projection; later stages train the projection with the encoder frozen. In the full path, this means Stage 1 trains the encoder and Stages 2–3 freeze it. In Post-align, the temporal encoder, cross-attention adapter, and LLM are trained together. Checkpoints record the architecture, backbone, and ordered stage history.
 
 ## Evaluation
 
 ```bash
 psr-evaluate --config configs/pre_align.yaml \
-  --checkpoint outputs/pre_align/reason \
+  --checkpoint outputs/pre_align/perceive-solve-reason \
   --data examples/reason.jsonl \
   --output outputs/pre_align/reason_predictions.jsonl
 ```
 
-The evaluator writes predictions and a separate `.metrics.json` summary. Generation currently uses greedy decoding without KV caching, so it favors clarity over throughput. It does not include the manuscript's original dataset converters, prompts, split manifests, checkpoint weights, or benchmark-specific answer parsers.
+The evaluator writes predictions and a separate `.metrics.json` summary. Generation currently uses greedy decoding without KV caching, so it favors clarity over throughput. It does not include the manuscript's original dataset converters, prompts, split manifests, checkpoint weights, or benchmark-specific answer parsers. The [evaluation and table index](../docs/EVALUATION.md) maps each transcribed result table to its CSV and corresponding reference entry point.
+
+To format a reported table from its CSV, use `psr-render-table --table progressive_capability`. This only displays manuscript numbers and does not run the evaluator.

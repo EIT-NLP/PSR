@@ -1,0 +1,16 @@
+training_path,data_ratio,evaluation_performance,relative_performance,full_progressive
+stage1,40,0.613,,0.751
+stage1,55,0.662,,0.751
+stage1,70,0.738,98.3,0.751
+stage1,85,0.745,,0.751
+stage1,100,0.751,100.0,0.751
+stage1_to_stage2,40,0.542,,0.684
+stage1_to_stage2,55,0.603,,0.684
+stage1_to_stage2,70,0.644,98.7,0.684
+stage1_to_stage2,85,0.649,,0.684
+stage1_to_stage2,100,0.652,100.0,0.684
+stage1_to_stage2_to_stage3,40,0.537,,0.710
+stage1_to_stage2_to_stage3,55,0.569,,0.710
+stage1_to_stage2_to_stage3,70,0.616,,0.710
+stage1_to_stage2_to_stage3,85,0.663,97.2,0.710
+stage1_to_stage2_to_stage3,100,0.682,100.0,0.710

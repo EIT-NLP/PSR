@@ -66,11 +66,13 @@ class PreAlignModel(nn.Module):
         self.temporal_encoder = encoder
         self.aligner = nn.Sequential(nn.Linear(encoder_size, llm.config.hidden_size), nn.LayerNorm(llm.config.hidden_size))
 
-    def set_stage(self, stage: str) -> None:
+    def set_stage(self, stage: str, train_encoder: bool | None = None) -> None:
+        if train_encoder is None:
+            train_encoder = stage == "perceive"
         for parameter in self.llm.parameters():
             parameter.requires_grad_(False)
         for parameter in self.temporal_encoder.parameters():
-            parameter.requires_grad_(stage == "perceive")
+            parameter.requires_grad_(train_encoder)
         for parameter in self.aligner.parameters():
             parameter.requires_grad_(True)
         self.llm.eval()
@@ -111,7 +113,7 @@ class PostAlignModel(nn.Module):
         self.cross_attention = nn.MultiheadAttention(hidden_size, heads, batch_first=True)
         self.norm = nn.LayerNorm(hidden_size)
 
-    def set_stage(self, stage: str) -> None:
+    def set_stage(self, stage: str, train_encoder: bool | None = None) -> None:
         for parameter in self.parameters():
             parameter.requires_grad_(True)
 

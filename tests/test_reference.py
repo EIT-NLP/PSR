@@ -1,4 +1,5 @@
 import json
+from pathlib import Path
 
 import pytest
 import torch
@@ -7,6 +8,8 @@ from transformers import GPT2Config, GPT2LMHeadModel
 from psr.data import TimeSeriesCollator, TimeSeriesJSONL
 from psr.metrics import summarize
 from psr.models import PostAlignModel, PreAlignModel, TemporalPatchEncoder
+from psr.report import render_table
+from psr.runtime import training_history
 
 
 class TinyTokenizer:
@@ -62,3 +65,14 @@ def test_numeric_metric_reports_invalid_predictions():
         {"task": "forecasting", "prediction": "invalid", "target": "[1, 1]"},
     ])
     assert summary["forecasting"] == {"count": 2, "valid_count": 1, "mse": 2.0}
+
+
+def test_ordered_ablation_paths_and_report_renderer():
+    assert training_history("reason") == ["reason"]
+    assert training_history("reason", ["perceive"]) == ["perceive", "reason"]
+    assert training_history("reason", ["perceive", "solve"]) == ["perceive", "solve", "reason"]
+    with pytest.raises(ValueError, match="must come after"):
+        training_history("perceive", ["solve"])
+    results = Path(__file__).resolve().parents[1] / "results"
+    markdown = render_table("progressive_capability", results)
+    assert "1.328" in markdown and "Stage 2 task solving" in markdown

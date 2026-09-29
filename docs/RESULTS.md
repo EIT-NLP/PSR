@@ -1,6 +1,6 @@
 # Results
 
-Values below are transcribed from the manuscript, not rerun from released code. Machine-readable versions are in [`../results/`](../results/).
+Values below are transcribed from the manuscript, not rerun from released code. Machine-readable versions are in [`../results/`](../results/). The [evaluation guide](EVALUATION.md) maps paper tables to CSVs, reference evaluation code, and missing benchmark components.
 
 ## Out-of-domain MTBench
 

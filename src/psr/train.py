@@ -13,7 +13,7 @@ from torch.utils.data import DataLoader
 from transformers import get_cosine_schedule_with_warmup
 
 from .data import STAGES, TimeSeriesCollator, TimeSeriesJSONL
-from .runtime import build_tokenizer_and_model, load_checkpoint, load_config, project_path, save_checkpoint
+from .runtime import build_tokenizer_and_model, load_checkpoint, load_config, project_path, save_checkpoint, training_history
 
 
 def parse_args() -> argparse.Namespace:
@@ -35,17 +35,14 @@ def main() -> None:
         gradient_accumulation_steps=int(training.get("gradient_accumulation_steps", 4)),
         mixed_precision=training.get("precision", "bf16"),
     )
-    if args.stage != "perceive" and not args.resume_from:
-        raise ValueError("Solve/Reason training needs --resume-from for the previous stage")
     if args.max_steps is not None and args.max_steps < 1:
         raise ValueError("--max-steps must be positive")
     tokenizer, model = build_tokenizer_and_model(config)
+    previous_history = None
     if args.resume_from:
-        previous_stage = load_checkpoint(model, args.resume_from, config)
-        expected = {"perceive": None, "solve": "perceive", "reason": "solve"}[args.stage]
-        if previous_stage != expected:
-            raise ValueError(f"Stage {args.stage} requires a {expected} checkpoint, got {previous_stage}")
-    model.set_stage(args.stage)
+        previous_history = load_checkpoint(model, args.resume_from, config)
+    history = training_history(args.stage, previous_history)
+    model.set_stage(args.stage, train_encoder=len(history) == 1)
     channels = int(config["model"]["channels"])
     dataset = TimeSeriesJSONL(project_path(config["data"][args.stage]), channels, args.stage)
     collator = TimeSeriesCollator(tokenizer, channels, int(training.get("max_text_tokens", 1024)))
@@ -86,9 +83,9 @@ def main() -> None:
         if args.max_steps and completed_steps >= args.max_steps:
             break
     output = project_path(args.output) if args.output else project_path(
-        Path("outputs") / config["model"]["architecture"] / args.stage
+        Path("outputs") / config["model"]["architecture"] / "-".join(history)
     )
-    save_checkpoint(accelerator, model, output, config, args.stage)
+    save_checkpoint(accelerator, model, output, config, history)
     if accelerator.is_main_process:
         tokenizer.save_pretrained(output / "tokenizer")
         accelerator.print(f"Saved reference checkpoint to {output}")

@@ -1,0 +1,13 @@
+model,training_path,ratio_15,ratio_25,ratio_50,ratio_75,ratio_100
+Pre-align,stage3_only,0.414,0.464,0.527,0.586,0.619
+Pre-align,mixed,0.479,0.520,0.583,0.673,0.689
+Pre-align,stage1_to_stage2_to_stage3,0.528,0.574,0.598,0.664,0.710
+Post-align,stage3_only,0.403,0.453,0.524,0.585,0.617
+Post-align,mixed,0.461,0.502,0.570,0.664,0.678
+Post-align,stage1_to_stage2_to_stage3,0.520,0.561,0.614,0.680,0.697
+Textualization,stage3_only,0.402,0.436,0.478,0.517,0.546
+Textualization,mixed,0.439,0.497,0.530,0.588,0.608
+Textualization,stage1_to_stage2_to_stage3,0.451,0.490,0.542,0.579,0.614
+Textualization,stage1_to_stage3,0.429,0.482,0.519,0.572,0.599
+Textualization,stage2_to_stage3,0.447,0.469,0.535,0.563,0.604
+Textualization,no_training,0.351,0.351,0.351,0.351,0.351
