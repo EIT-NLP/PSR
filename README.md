@@ -25,7 +25,7 @@ Time series LLMs need more than a single downstream skill. This work studies whe
 
 The paper compares ordered training against isolated stages and mixed supervision with **Pre-align** and **Post-align** architectures. It finds that Perceive helps Solve and that the complete path offers the strongest overall high-level reasoning results, especially when Reason training data are scarce.
 
-<p align="center"><img src="assets/architecture.png" alt="Paper figure comparing textualization, Pre-align, and Post-align architectures" width="900"></p>
+<p align="center"><img src="assets/architecture.png" alt="Paper figure comparing textualization, Pre-align, and Post-align architectures" width="600"></p>
 <p align="center"><em>Figure: three time series input and alignment paradigms investigated in the paper.</em></p>
 
 ## Paper figures and findings
@@ -34,21 +34,20 @@ The paper compares ordered training against isolated stages and mixed supervisio
 
 The first stage builds categorical and numerical understanding of basic time series patterns. The figure below compares the two alignment architectures with GPT-4o text and vision settings.
 
-<p align="center"><img src="assets/cate_num_comparison_four_models.png" alt="Categorical and numerical temporal perception comparison" width="900"></p>
+<p align="center"><img src="assets/cate_num_comparison_four_models.png" alt="Categorical and numerical temporal perception comparison" width="700"></p>
 
 ### Progressive reasoning
 
 The advantage of ordered training is most visible with limited Stage 3 supervision. At **15%** of Reason training data, the full path reaches **0.528** for Pre-align and **0.520** for Post-align in the paper's scaling experiment.
 
-<p align="center"><img src="assets/reasoning_data_scaling.png" alt="Reasoning accuracy across Stage 3 data ratios" width="900"></p>
+<p align="center"><img src="assets/reasoning_data_scaling.png" alt="Reasoning accuracy across Stage 3 data ratios" width="500"></p>
 
 ### Why order matters
 
 The paper also analyzes gradient dynamics and where stage-to-stage capability transfer appears across network layers. These are manuscript figures; the reference code does not regenerate them.
 
 <p align="center">
-  <img src="assets/gradient_dynamics_2x3.png" alt="Gradient dynamics for mixed and progressive training" width="48%">
-  <img src="assets/capability_reuse_ratio_layers.png" alt="Representation transfer ratios across network layers" width="48%">
+  <img src="assets/capability_reuse_ratio_layers.png" alt="Representation transfer ratios across network layers" width="40%">
 </p>
 
 ## Selected paper results
@@ -98,9 +97,11 @@ psr-render-table --all --output outputs/reported_tables.md
 
 ## Installation
 
-The reference package requires Python 3.10+, PyTorch, Transformers, Accelerate, and a Qwen3-compatible environment. Install a PyTorch build matching your CUDA driver before installing the package:
+The reference package requires Python 3.10+, PyTorch, Transformers, Accelerate, and a Qwen3-compatible environment. After cloning the repository, install a PyTorch build matching your CUDA driver before installing the package:
 
 ```bash
+git clone GITHUB_REPO_URL_TODO
+cd perceive-solve-reason
 conda env create -f environment.example.yml
 conda activate perceive-solve-reason
 # Install the CUDA-compatible PyTorch build for your machine.
@@ -108,6 +109,20 @@ python -m pip install -e .
 ```
 
 The manuscript reports Qwen3-4B, **2 × NVIDIA A800**, bfloat16, AdamW, and an effective batch size of 32. Exact original package versions are unknown; see [reported settings](docs/REPRODUCIBILITY.md).
+
+## Inference
+
+With a reference checkpoint produced by the training pipeline, run a single time series question using [`examples/inference.json`](examples/inference.json):
+
+```bash
+psr-infer \
+  --config configs/pre_align.yaml \
+  --checkpoint outputs/pre_align/perceive-solve-reason \
+  --input examples/inference.json \
+  --max-new-tokens 32
+```
+
+The input is a JSON object with `series` (time steps × channels) and `prompt`. The command prints a JSON object containing the prompt and generated answer; add `--output outputs/inference.json` to save it. Set `model.channels` in the config to the series width. No pretrained weights are distributed here, so the checkpoint path above becomes available only after training or supplying your own compatible reference checkpoint. For batch scoring, use [Evaluation](docs/EVALUATION.md).
 
 ## Data format
 
@@ -167,6 +182,10 @@ The paper URL is pending: `PAPER_URL_TODO`. The manuscript's LaTeX source is not
   url    = {PAPER_URL_TODO}
 }
 ```
+
+## Contact
+
+For questions about the paper or this reference repository, contact **CONTACT_EMAIL_TODO**. Replace this placeholder with the public project email before publishing.
 
 ## License
 

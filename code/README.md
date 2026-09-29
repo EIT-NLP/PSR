@@ -8,6 +8,7 @@ The executable package is in [`../src/psr/`](../src/psr/). It is an independentl
 | [`models.py`](../src/psr/models.py) | Patch-based temporal encoder, input-space Pre-align, output-side Post-align |
 | [`train.py`](../src/psr/train.py) | Perceive → Solve → Reason supervised training with Accelerate |
 | [`evaluate.py`](../src/psr/evaluate.py) | Greedy generation, prediction export, metrics |
+| [`infer.py`](../src/psr/infer.py) | Single-example inference from a JSON input |
 | [`runtime.py`](../src/psr/runtime.py) | Configuration, backbone loading, stage checkpoints |
 
 ## Data contract
@@ -46,5 +47,7 @@ psr-evaluate --config configs/pre_align.yaml \
 ```
 
 The evaluator writes predictions and a separate `.metrics.json` summary. Generation currently uses greedy decoding without KV caching, so it favors clarity over throughput. It does not include the manuscript's original dataset converters, prompts, split manifests, checkpoint weights, or benchmark-specific answer parsers. The [evaluation and table index](../docs/EVALUATION.md) maps each transcribed result table to its CSV and corresponding reference entry point.
+
+For a single prompt without a target answer, use `psr-infer --config configs/pre_align.yaml --checkpoint outputs/pre_align/perceive-solve-reason --input examples/inference.json`. The input needs only `series` and `prompt`.
 
 To format a reported table from its CSV, use `psr-render-table --table progressive_capability`. This only displays manuscript numbers and does not run the evaluator.

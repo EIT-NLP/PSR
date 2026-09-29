@@ -5,7 +5,7 @@ import pytest
 import torch
 from transformers import GPT2Config, GPT2LMHeadModel
 
-from psr.data import TimeSeriesCollator, TimeSeriesJSONL
+from psr.data import TimeSeriesCollator, TimeSeriesJSONL, validate_inference_input
 from psr.metrics import summarize
 from psr.models import PostAlignModel, PreAlignModel, TemporalPatchEncoder
 from psr.report import render_table
@@ -76,3 +76,10 @@ def test_ordered_ablation_paths_and_report_renderer():
     results = Path(__file__).resolve().parents[1] / "results"
     markdown = render_table("progressive_capability", results)
     assert "1.328" in markdown and "Stage 2 task solving" in markdown
+
+
+def test_inference_input_does_not_require_target():
+    record = {"series": [[1.0, 2.0], [2.0, 2.0]], "prompt": "What is the trend?"}
+    validate_inference_input(record, channels=2)
+    with pytest.raises(ValueError, match="3 channels"):
+        validate_inference_input(record, channels=3)

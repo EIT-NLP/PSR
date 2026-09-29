@@ -23,6 +23,7 @@ dev = ["pytest>=8"]
 [project.scripts]
 psr-train = "psr.train:main"
 psr-evaluate = "psr.evaluate:main"
+psr-infer = "psr.infer:main"
 psr-render-table = "psr.report:main"
 
 [tool.setuptools.packages.find]

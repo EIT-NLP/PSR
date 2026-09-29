@@ -13,6 +13,22 @@ from torch.utils.data import Dataset
 STAGES = ("perceive", "solve", "reason")
 
 
+def validate_inference_input(record: dict[str, Any], channels: int) -> None:
+    """Validate the fields needed for a single prediction, without a target answer."""
+    if not isinstance(record, dict):
+        raise ValueError("Inference input must be a JSON object")
+    if not isinstance(record.get("prompt"), str) or not record["prompt"]:
+        raise ValueError("prompt must be a nonempty string")
+    series = record.get("series")
+    if not isinstance(series, list) or not series:
+        raise ValueError("series must be a nonempty list of time steps")
+    for step in series:
+        if not isinstance(step, list) or len(step) != channels:
+            raise ValueError(f"Each time step must contain {channels} channels")
+        if any(not isinstance(value, (int, float)) or isinstance(value, bool) or not math.isfinite(value) for value in step):
+            raise ValueError("series values must be finite numbers")
+
+
 def validate_record(record: dict[str, Any], channels: int, stage: str | None = None) -> None:
     if not isinstance(record, dict):
         raise ValueError("Each JSONL row must be an object")
@@ -26,14 +42,7 @@ def validate_record(record: dict[str, Any], channels: int, stage: str | None = N
         raise ValueError(f"Expected stage {stage}, got {record['stage']}")
     if not all(isinstance(record[key], str) and record[key] for key in ("id", "task", "prompt", "answer")):
         raise ValueError("id, task, prompt, and answer must be nonempty strings")
-    series = record["series"]
-    if not isinstance(series, list) or not series:
-        raise ValueError("series must be a nonempty list of time steps")
-    for step in series:
-        if not isinstance(step, list) or len(step) != channels:
-            raise ValueError(f"Each time step must contain {channels} channels")
-        if any(not isinstance(value, (int, float)) or isinstance(value, bool) or not math.isfinite(value) for value in step):
-            raise ValueError("series values must be finite numbers")
+    validate_inference_input(record, channels)
 
 
 class TimeSeriesJSONL(Dataset):

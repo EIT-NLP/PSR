@@ -1,0 +1,4 @@
+{
+  "series": [[1.0, 3.0], [2.0, 3.0], [3.0, 3.0], [4.0, 3.0]],
+  "prompt": "Channel 1 rises while channel 2 stays flat. Which claim is supported? A) Both rise. B) Only channel 1 rises. C) Both fall. Answer with the letter only."
+}
