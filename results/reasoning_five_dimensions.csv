@@ -1,0 +1,9 @@
+model,training_path,decoding,grounding,inferring,extrapolating,acting
+Pre-align,stage3_only,72.2,68.5,61.3,57.2,50.7
+Pre-align,stage1_to_stage3,77.8,81.5,63.3,62.2,51.8
+Pre-align,stage2_to_stage3,75.1,72.0,65.8,59.5,53.9
+Pre-align,stage1_to_stage2_to_stage3,82.5,79.1,70.7,65.4,57.2
+Post-align,stage3_only,68.5,66.2,58.9,58.8,49.2
+Post-align,stage1_to_stage3,75.6,73.8,61.2,64.1,54.3
+Post-align,stage2_to_stage3,73.9,72.7,66.0,68.9,58.8
+Post-align,stage1_to_stage2_to_stage3,79.0,79.4,64.2,66.7,61.4

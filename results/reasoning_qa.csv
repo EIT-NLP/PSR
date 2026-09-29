@@ -1,0 +1,9 @@
+model,training_path,true_false_accuracy,multiple_choice_accuracy,open_qa_rouge_l,open_qa_bleu
+Pre-align,stage3_only,71.4,58.6,43.8,24.7
+Pre-align,stage1_to_stage3,78.3,62.2,45.5,25.8
+Pre-align,stage2_to_stage3,74.5,65.1,47.2,26.7
+Pre-align,stage1_to_stage2_to_stage3,80.6,68.8,51.6,31.5
+Post-align,stage3_only,66.3,60.3,42.1,22.3
+Post-align,stage1_to_stage3,70.4,63.6,40.8,24.5
+Post-align,stage2_to_stage3,68.6,67.6,44.4,25.9
+Post-align,stage1_to_stage2_to_stage3,72.3,71.5,49.7,28.9

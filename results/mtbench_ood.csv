@@ -1,0 +1,7 @@
+model,weather_mcqa,weather_prediction,finance_7d_3way,finance_7d_5way,finance_7d_mse,finance_30d_3way,finance_30d_5way,finance_30d_mse
+TimeOmni-1-7B,41.67,51.40,40.76,34.97,0.622,37.39,20.00,1.490
+ITFormer-7B,57.14,36.26,40.14,33.57,0.174,51.03,31.72,0.907
+ChatTS-7B,56.21,28.79,19.71,16.09,2.047,19.38,13.46,3.342
+PATRA-7B,60.46,52.04,63.33,60.80,0.191,54.39,43.70,0.822
+TS-LLM (Pre-align),67.24,57.17,68.19,57.82,0.187,60.29,41.51,0.837
+TS-LLM (Post-align),65.92,52.76,59.88,55.43,0.160,65.78,47.16,0.744

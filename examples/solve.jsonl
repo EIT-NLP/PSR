@@ -1,0 +1,2 @@
+{"id":"solve-001","stage":"solve","task":"forecasting","series":[[1.0,0.0],[2.0,0.0],[3.0,0.0],[4.0,0.0]],"prompt":"Forecast the next two values of channel 1. Return a JSON array only.","answer":"[5.0, 6.0]"}
+{"id":"solve-002","stage":"solve","task":"classification","series":[[4.0,0.0],[3.0,0.0],[2.0,0.0],[1.0,0.0]],"prompt":"Classify the trend of channel 1 as rising or falling. Reply with one word.","answer":"falling"}

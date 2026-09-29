@@ -1,0 +1,30 @@
+# Reference configuration; joint backbone training may need distributed sharding.
+model:
+  architecture: post_align
+  backbone: Qwen/Qwen3-4B
+  channels: 2
+  encoder_size: 512
+  patch_size: 16
+  encoder_layers: 2
+  encoder_heads: 8
+  cross_attention_heads: 8
+data:
+  perceive: examples/perceive.jsonl
+  solve: examples/solve.jsonl
+  reason: examples/reason.jsonl
+training:
+  precision: bf16
+  seed: 2026
+  batch_size_per_gpu: 4
+  gradient_accumulation_steps: 4
+  learning_rate: 0.00002
+  weight_decay: 0.01
+  max_grad_norm: 1.0
+  warmup_ratio: 0.0
+  max_text_tokens: 1024
+  num_workers: 0
+  log_every: 10
+  epochs:
+    perceive: 1
+    solve: 1
+    reason: 1

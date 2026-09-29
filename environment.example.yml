@@ -1,0 +1,8 @@
+# Starting environment only: exact versions were not provided in the manuscript.
+# Install a CUDA-compatible PyTorch build before the framework packages.
+name: perceive-solve-reason
+channels:
+  - conda-forge
+dependencies:
+  - python=3.10
+  - pip

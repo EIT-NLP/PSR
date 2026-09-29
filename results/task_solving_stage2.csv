@@ -1,0 +1,8 @@
+model,training_path,forecast_mse,imputation_mse,anomaly_accuracy,classification_accuracy
+Qwen3-4B,no_finetuning,1.970,0.0286,0.333,0.296
+Pre-align,stage1_only,1.842,0.0194,0.587,0.459
+Pre-align,stage2_only,1.368,0.0136,0.682,0.567
+Pre-align,stage1_to_stage2,1.328,0.0132,0.739,0.628
+Post-align,stage1_only,1.716,0.0217,0.612,0.431
+Post-align,stage2_only,1.423,0.0146,0.660,0.529
+Post-align,stage1_to_stage2,1.286,0.0159,0.720,0.597

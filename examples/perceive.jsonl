@@ -1,0 +1,2 @@
+{"id":"perceive-001","stage":"perceive","task":"pattern","series":[[1.0,2.0],[2.0,2.0],[3.0,2.0],[4.0,2.0]],"prompt":"Channel 1 values are shown over time. Is its trend rising, falling, or flat? Reply with one word.","answer":"rising"}
+{"id":"perceive-002","stage":"perceive","task":"pattern","series":[[4.0,1.0],[3.0,1.0],[2.0,1.0],[1.0,1.0]],"prompt":"Channel 1 values are shown over time. Is its trend rising, falling, or flat? Reply with one word.","answer":"falling"}

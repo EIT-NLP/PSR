@@ -1,0 +1,38 @@
+# LaTeX build files
+*.aux
+*.bbl
+*.blg
+*.fdb_latexmk
+*.fls
+*.log
+*.out
+*.synctex.gz
+*.toc
+
+# Python and environments
+__pycache__/
+*.py[cod]
+.pytest_cache/
+*.egg-info/
+build/
+dist/
+.venv/
+.env
+.env.*
+!.env.example
+
+# Generated outputs and large local artifacts
+checkpoints/
+outputs/
+runs/
+wandb/
+data/
+*.pt
+*.pth
+*.ckpt
+*.safetensors
+
+# Editor and OS files
+.idea/
+.vscode/
+.DS_Store

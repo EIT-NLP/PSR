@@ -1,0 +1,2 @@
+{"id":"reason-001","stage":"reason","task":"multiple_choice","series":[[1.0,3.0],[2.0,3.0],[3.0,3.0],[4.0,3.0]],"prompt":"Channel 1 rises while channel 2 stays flat. Which claim is supported? A) Both rise. B) Only channel 1 rises. C) Both fall. Answer with the letter only.","answer":"B"}
+{"id":"reason-002","stage":"reason","task":"multiple_choice","series":[[4.0,2.0],[3.0,2.0],[2.0,2.0],[1.0,2.0]],"prompt":"Channel 1 falls while channel 2 stays flat. Which claim is supported? A) Only channel 1 falls. B) Both rise. C) Both fall. Answer with the letter only.","answer":"A"}
