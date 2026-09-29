@@ -124,6 +124,22 @@ psr-infer \
 
 The input is a JSON object with `series` (time steps × channels) and `prompt`. The command prints a JSON object containing the prompt and generated answer; add `--output outputs/inference.json` to save it. Set `model.channels` in the config to the series width. No pretrained weights are distributed here, so the checkpoint path above becomes available only after training or supplying your own compatible reference checkpoint. For batch scoring, use [Evaluation](docs/EVALUATION.md).
 
+## Datasets
+
+The paper combines several external resources across the three capability stages. The links point to verified dataset/release pages where available, or to the paper when a public download page could not be confirmed. Datasets and benchmark splits are **not** mirrored in this repository.
+
+| Dataset | Used for | Public link |
+| --- | --- | --- |
+| **ChatTS** | Stage 1 perception; Stage 3 TSEvol and instruction following | [Training dataset](https://huggingface.co/datasets/ChatTSRepo/ChatTS-Training-Dataset) · [project](https://github.com/NetManAIOps/ChatTS) |
+| **TSQA / Time-MQA** | Stage 2 forecasting, imputation, anomaly detection, classification; Stage 3 QA | [Time-MQA release hub](https://huggingface.co/Time-MQA) · [paper](https://aclanthology.org/2025.acl-long.1437/) |
+| **TS Instruct / Chat-TS** | Stage 2 classification; Stage 3 reasoning | [TS Instruct dataset](https://huggingface.co/datasets/PaulQ1/TS_Instruct_Reasoning_V1) · [project](https://github.com/quinlanp/Chat-TS-Multi-Modal-Reasoning) |
+| **TSCognition** | Stage 3 five-dimensional reasoning | [paper](https://arxiv.org/abs/2606.22126) · public dataset download link not confirmed |
+| **TimeSeriesExam** | Out-of-domain perception evaluation | [dataset](https://huggingface.co/datasets/AutonLab/TimeSeriesExam) · [project](https://github.com/moment-timeseries-foundation-model/TimeSeriesExam) |
+| **CaTS-Bench** | Out-of-domain temporal perception evaluation | [dataset](https://huggingface.co/datasets/mhfisher/CaTSBench) · [project](https://github.com/LuckerZOfficiaL/CaTS-Bench) |
+| **MTBench** | Out-of-domain weather and finance evaluation | [paper](https://arxiv.org/abs/2503.16858) · public dataset download link not confirmed |
+
+The paper also uses manually constructed and synthetic Stage 1 evaluation questions and its own Stage 2/3 splits. Their exact split files are not distributed here. See [DATA.md](docs/DATA.md) for source counts, the TSCognition source datasets, and known manuscript count inconsistencies.
+
 ## Data format
 
 Training and evaluation use UTF-8 JSONL. Each line contains a time-by-channel numeric array and a prompt/answer pair:
@@ -185,7 +201,7 @@ The paper URL is pending: `PAPER_URL_TODO`. The manuscript's LaTeX source is not
 
 ## Contact
 
-For questions about the paper or this reference repository, contact **CONTACT_EMAIL_TODO**. Replace this placeholder with the public project email before publishing.
+For questions about the paper or this reference repository, contact **qiuxin688@gmail.com**. Replace this placeholder with the public project email before publishing.
 
 ## License
 
