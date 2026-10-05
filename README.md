@@ -100,8 +100,8 @@ psr-render-table --all --output outputs/reported_tables.md
 The reference package requires Python 3.10+, PyTorch, Transformers, Accelerate, and a Qwen3-compatible environment. After cloning the repository, install a PyTorch build matching your CUDA driver before installing the package:
 
 ```bash
-git clone https://github.com/qiuxins/PSR.git
-cd perceive-solve-reason
+git clone https://github.com/EIT-NLP/PSR.git
+cd PSR
 conda env create -f environment.example.yml
 conda activate perceive-solve-reason
 # Install the CUDA-compatible PyTorch build for your machine.
